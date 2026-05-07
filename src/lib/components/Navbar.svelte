@@ -16,7 +16,7 @@
 	<div class="nav-inner">
 		<div class="nav-left">
 			<a href="#about">ABOUT</a>
-			<a href="#program">PROGRAM</a>
+			<a href="#artists">ARTISTS</a>
 		</div>
 
 		<button class="hamburger" onclick={toggle} aria-label="Toggle menu">
@@ -41,7 +41,7 @@
 <aside class="side-menu" class:open={menuOpen}>
 	<nav>
 		<a href="#about" onclick={close}>ABOUT</a>
-		<a href="#program" onclick={close}>PROGRAM</a>
+		<a href="#artists" onclick={close}>ARTISTS</a>
 		<a href="#info" onclick={close}>INFO</a>
 		<a href="#tickets" onclick={close}>TICKETS</a>
 	</nav>

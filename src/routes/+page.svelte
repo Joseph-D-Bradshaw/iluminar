@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Hero from '$lib/components/Hero.svelte';
 	import About from '$lib/components/About.svelte';
+	import Artists from '$lib/components/Artists.svelte';
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -22,19 +23,7 @@
 			opacity: 0.3
 		});
 
-		// 2. Progress bar scrub
-		gsap.to('.progress-fill', {
-			scrollTrigger: {
-				trigger: '.progress-section',
-				start: 'top 70%',
-				end: 'bottom 30%',
-				scrub: true
-			},
-			scaleX: 1,
-			ease: 'none'
-		});
-
-		// 4. Scale-in boxes
+		// 3. Scale-in boxes
 		gsap.from('.box', {
 			scrollTrigger: {
 				trigger: '.boxes',
@@ -96,14 +85,7 @@
 
 <About />
 
-<!-- Program -->
-<section id="program" class="section progress-section">
-	<h2 class="section-title">PROGRAM</h2>
-	<div class="progress-track">
-		<div class="progress-fill"></div>
-	</div>
-	<p class="progress-label">Scroll to fill</p>
-</section>
+<Artists />
 
 <!-- Info -->
 <section id="info" class="section boxes-section">
@@ -151,30 +133,6 @@
 
 	.section-title {
 		margin-bottom: 2rem;
-	}
-
-	/* ─ Progress ─ */
-	.progress-track {
-		width: min(400px, 80vw);
-		height: 8px;
-		background: var(--color-bg-subtle);
-		border-radius: var(--radius-full);
-		overflow: hidden;
-	}
-
-	.progress-fill {
-		width: 100%;
-		height: 100%;
-		background: var(--color-gold);
-		border-radius: var(--radius-full);
-		transform-origin: left;
-		transform: scaleX(0);
-	}
-
-	.progress-label {
-		margin-top: var(--space-4);
-		color: var(--color-text-muted);
-		font-size: var(--text-sm);
 	}
 
 	/* ─ Boxes ─ */
