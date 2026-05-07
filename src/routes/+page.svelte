@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Hero from '$lib/components/Hero.svelte';
+	import About from '$lib/components/About.svelte';
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -21,22 +22,7 @@
 			opacity: 0.3
 		});
 
-		// 2. Staggered card reveal
-		gsap.from('.card', {
-			scrollTrigger: {
-				trigger: '.cards-grid',
-				start: 'top 75%',
-				toggleActions: 'play none none reverse'
-			},
-			opacity: 0,
-			y: 80,
-			rotateY: 30,
-			duration: 0.8,
-			stagger: 0.15,
-			ease: 'power2.out'
-		});
-
-		// 3. Progress bar scrub
+		// 2. Progress bar scrub
 		gsap.to('.progress-fill', {
 			scrollTrigger: {
 				trigger: '.progress-section',
@@ -108,16 +94,7 @@
 
 <img class="bg-logo" src={logoSvg} alt="" />
 
-<!-- About -->
-<section id="about" class="section cards-section">
-	<h2 class="section-title">ABOUT</h2>
-	<div class="cards-grid">
-		<div class="card">One</div>
-		<div class="card">Two</div>
-		<div class="card">Three</div>
-		<div class="card">Four</div>
-	</div>
-</section>
+<About />
 
 <!-- Program -->
 <section id="program" class="section progress-section">
@@ -174,26 +151,6 @@
 
 	.section-title {
 		margin-bottom: 2rem;
-	}
-
-	/* ─ Cards ─ */
-	.cards-grid {
-		display: grid;
-		grid-template-columns: repeat(4, 1fr);
-		gap: 1.5rem;
-		max-width: 720px;
-		width: 100%;
-		perspective: 1000px;
-	}
-
-	.card {
-		background: var(--color-bg-elevated);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-		padding: 3rem 1rem;
-		font-family: var(--font-heading);
-		font-size: var(--text-xl);
-		color: var(--color-gold);
 	}
 
 	/* ─ Progress ─ */

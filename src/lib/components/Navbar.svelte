@@ -65,6 +65,7 @@
 	.nav-inner {
 		display: grid;
 		grid-template-columns: 1fr auto 1fr;
+		column-gap: 1.5rem;
 		align-items: center;
 		max-width: 1200px;
 		margin: 0 auto;
@@ -132,6 +133,7 @@
 
 	.nav-center img {
 		height: 28px;
+		min-width: 120px;
 		display: block;
 	}
 
@@ -178,10 +180,9 @@
 		left: 0;
 		bottom: 0;
 		z-index: 95;
-		width: 260px;
-		background: var(--color-bg-elevated);
-		border-right: 1px solid var(--color-border);
-		padding: 5rem 2rem 2rem;
+		width: 240px;
+		background: #000;
+		padding: 5rem 0 2rem 2rem;
 		transform: translateX(-100%);
 		transition: transform var(--transition-base);
 	}
