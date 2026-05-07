@@ -3,6 +3,7 @@
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import logoSvg from '$lib/assets/no-text-logo.svg';
 
 	onMount(() => {
 		gsap.registerPlugin(ScrollTrigger);
@@ -85,10 +86,27 @@
 			duration: 0.7,
 			stagger: 0.2
 		});
+
+		// 7. Background logo fade-in
+		gsap.set('.bg-logo', { opacity: 0 });
+		gsap.to('.bg-logo', {
+			scrollTrigger: {
+				trigger: '#about',
+				start: 'top bottom',
+				end: 'top 30%',
+				scrub: true
+			},
+			opacity: 0.5,
+			ease: 'none'
+		});
+
+		ScrollTrigger.refresh();
 	});
 </script>
 
 <Hero />
+
+<img class="bg-logo" src={logoSvg} alt="" />
 
 <!-- About -->
 <section id="about" class="section cards-section">
@@ -239,5 +257,17 @@
 	.reveal-line {
 		font-size: var(--text-2xl);
 		margin: 0.3em 0;
+	}
+
+	/* ─ Background Logo ─ */
+	.bg-logo {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 0;
+		pointer-events: none;
+		width: min(600px, 80vw);
+		height: auto;
 	}
 </style>

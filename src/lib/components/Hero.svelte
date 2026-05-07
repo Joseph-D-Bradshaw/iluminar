@@ -19,7 +19,6 @@
 		justify-content: center;
 		text-align: center;
 		position: relative;
-		z-index: 1;
 		overflow: hidden;
 	}
 
