@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Hero from '$lib/components/Hero.svelte';
 	import { onMount } from 'svelte';
 	import { gsap } from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -87,15 +88,11 @@
 	});
 </script>
 
-<!-- Hero -->
-<section class="hero">
-	<h1 class="hero-title">iluminar</h1>
-	<p class="hero-subtitle">A spark in the dark.</p>
-</section>
+<Hero />
 
-<!-- Staggered cards -->
-<section class="section cards-section">
-	<h2 class="section-title">Fade &amp; Stagger</h2>
+<!-- About -->
+<section id="about" class="section cards-section">
+	<h2 class="section-title">ABOUT</h2>
 	<div class="cards-grid">
 		<div class="card">One</div>
 		<div class="card">Two</div>
@@ -104,18 +101,18 @@
 	</div>
 </section>
 
-<!-- Progress bar -->
-<section class="section progress-section">
-	<h2 class="section-title">Scrub Progress</h2>
+<!-- Program -->
+<section id="program" class="section progress-section">
+	<h2 class="section-title">PROGRAM</h2>
 	<div class="progress-track">
 		<div class="progress-fill"></div>
 	</div>
 	<p class="progress-label">Scroll to fill</p>
 </section>
 
-<!-- Scale-in boxes -->
-<section class="section boxes-section">
-	<h2 class="section-title">Scale &amp; Rotate</h2>
+<!-- Info -->
+<section id="info" class="section boxes-section">
+	<h2 class="section-title">INFO</h2>
 	<div class="boxes">
 		<div class="box"></div>
 		<div class="box"></div>
@@ -125,8 +122,8 @@
 	</div>
 </section>
 
-<!-- Parallax -->
-<section class="section parallax-section">
+<!-- Tickets -->
+<section id="tickets" class="section parallax-section">
 	<div class="parallax-layer"></div>
 	<div class="parallax-content">
 		<h2 class="section-title">Parallax</h2>
@@ -154,34 +151,11 @@
 		text-align: center;
 		position: relative;
 		overflow: hidden;
+		scroll-margin-top: 70px;
 	}
 
 	.section-title {
 		margin-bottom: 2rem;
-	}
-
-	/* ─ Hero ─ */
-	.hero {
-		height: 100vh;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
-		position: relative;
-		z-index: 1;
-	}
-
-	.hero-title {
-		font-size: clamp(3rem, 10vw, 7rem);
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.hero-subtitle {
-		font-size: var(--text-lg);
-		color: var(--color-text-muted);
-		margin-top: var(--space-4);
 	}
 
 	/* ─ Cards ─ */
