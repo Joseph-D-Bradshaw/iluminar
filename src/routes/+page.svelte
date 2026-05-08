@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Hero from '$lib/components/Hero.svelte';
 	import About from '$lib/components/About.svelte';
+	import People from '$lib/components/People.svelte';
+	import Volunteers from '$lib/components/Volunteers.svelte';
 	import Artists from '$lib/components/Artists.svelte';
 	import { onMount } from 'svelte';
 	import { gsap, ScrollTrigger } from '$lib/utils/gsap';
@@ -91,6 +93,10 @@
 <About />
 
 <Artists />
+
+<People />
+
+<Volunteers />
 
 <!-- Info -->
 <section id="info" class="section boxes-section">
