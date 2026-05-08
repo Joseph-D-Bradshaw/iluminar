@@ -77,29 +77,6 @@
 					scrub: true
 				}
 			});
-
-			track.querySelectorAll('.marquee-item').forEach((item) => {
-				const nameEl = item.querySelector('.artist-name');
-				if (!nameEl) return;
-
-				gsap.fromTo(
-					nameEl,
-					{ opacity: 0, y: 16, filter: 'blur(4px)' },
-					{
-						opacity: 1,
-						y: 0,
-						filter: 'blur(0px)',
-						duration: 0.5,
-						ease: 'power2.out',
-						scrollTrigger: {
-							containerAnimation: scrollTween,
-							trigger: item,
-							start: 'left 62%',
-							toggleActions: 'play none none reset'
-						}
-					}
-				);
-			});
 		});
 
 		ScrollTrigger.refresh();
