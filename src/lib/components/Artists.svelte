@@ -1,54 +1,37 @@
 <script lang="ts">
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import { gsap, ScrollTrigger } from '$lib/utils/gsap';
 	import type { Attachment } from 'svelte/attachments';
 
 	const images = Array.from({ length: 8 }, (_, i) => `/artist-${i + 1}.webp`);
 
-	let anim: gsap.core.Tween | undefined;
-	let hovering = false;
-
 	const trackAnimation: Attachment = (node) => {
-		gsap.registerPlugin(ScrollTrigger);
-
 		const track = node;
 		const wrapper = track.parentElement!;
-		const totalWidth = track.scrollWidth / 2;
 
-		anim = gsap.to(track, {
-			x: -totalWidth,
-			duration: 40,
-			ease: 'none',
-			repeat: -1
+		function getDistance() {
+			return track.scrollWidth - wrapper.clientWidth;
+		}
+
+		const ctx = gsap.context(() => {
+			gsap.to(track, {
+				x: () => -getDistance(),
+				ease: 'none',
+				scrollTrigger: {
+					trigger: '#artists',
+					start: 'top top',
+					end: () => `+=${getDistance()}`,
+					pin: true,
+					pinSpacing: true,
+					scrub: 1,
+					invalidateOnRefresh: true,
+					anticipatePin: 1
+				}
+			});
 		});
 
-		ScrollTrigger.create({
-			trigger: '#artists',
-			start: 'top bottom',
-			end: 'bottom top',
-			onEnter: () => {
-				if (!hovering) anim?.play();
-			},
-			onLeave: () => anim?.pause(),
-			onEnterBack: () => {
-				if (!hovering) anim?.play();
-			},
-			onLeaveBack: () => anim?.pause()
-		});
+		ScrollTrigger.refresh();
 
-		wrapper.addEventListener('mouseenter', () => {
-			hovering = true;
-			anim?.pause();
-		});
-		wrapper.addEventListener('mouseleave', () => {
-			hovering = false;
-			anim?.resume();
-		});
-
-		return () => {
-			anim?.kill();
-			anim = undefined;
-		};
+		return () => ctx.revert();
 	};
 </script>
 
@@ -56,13 +39,10 @@
 	<div class="marquee-wrapper">
 		<div class="marquee-track" {@attach trackAnimation}>
 			{#each images as src, i (src + '-a')}
-				<div class="marquee-item">
-					<img {src} alt="" loading="lazy" />
-				</div>
-			{/each}
-			{#each images as src, i (src + '-b')}
-				<div class="marquee-item">
-					<img {src} alt="" loading="lazy" />
+				<div class="marquee-item" class:offset-up={i % 2 === 0} class:offset-down={i % 2 !== 0}>
+					<div class="marquee-inner">
+						<img {src} alt="" loading="lazy" />
+					</div>
 				</div>
 			{/each}
 		</div>
@@ -90,7 +70,6 @@
 	.marquee-wrapper {
 		width: 100%;
 		overflow: hidden;
-		cursor: pointer;
 		padding: 2rem 0;
 	}
 
@@ -107,7 +86,7 @@
 		width: min(40vh, 400px);
 		aspect-ratio: 1;
 		border-radius: var(--radius-md);
-		overflow: hidden;
+		overflow: visible;
 		border: 1px solid var(--color-border);
 		transition: border-color var(--transition-fast);
 	}
@@ -116,7 +95,22 @@
 		border-color: var(--color-gold);
 	}
 
-	.marquee-item img {
+	.marquee-item.offset-up {
+		margin-top: -40px;
+	}
+
+	.marquee-item.offset-down {
+		margin-top: 40px;
+	}
+
+	.marquee-inner {
+		width: 100%;
+		height: 100%;
+		border-radius: var(--radius-md);
+		overflow: hidden;
+	}
+
+	.marquee-inner img {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
@@ -126,6 +120,14 @@
 	@media (max-width: 640px) {
 		.marquee-item {
 			width: 30vh;
+		}
+
+		.marquee-item.offset-up {
+			margin-top: -20px;
+		}
+
+		.marquee-item.offset-down {
+			margin-top: 20px;
 		}
 
 		.section-title {

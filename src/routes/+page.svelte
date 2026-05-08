@@ -3,79 +3,84 @@
 	import About from '$lib/components/About.svelte';
 	import Artists from '$lib/components/Artists.svelte';
 	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import { gsap, ScrollTrigger } from '$lib/utils/gsap';
 	import logoSvg from '$lib/assets/no-text-logo.svg';
 
 	onMount(() => {
-		gsap.registerPlugin(ScrollTrigger);
+		const ctx = gsap.context(() => {
+			// 1. Hero parallax — gradual fade/scale as hero scrolls away
+			gsap.to('.hero-title', {
+				scrollTrigger: {
+					trigger: '.hero',
+					start: 'top top',
+					end: '+=60%',
+					scrub: true
+				},
+				y: 120,
+				scale: 0.8,
+				opacity: 0.3
+			});
 
-		// 1. Hero parallax
-		gsap.to('.hero-title', {
-			scrollTrigger: {
-				trigger: '.hero',
-				start: 'top top',
-				end: 'bottom top',
-				scrub: true
-			},
-			y: 120,
-			scale: 0.8,
-			opacity: 0.3
-		});
+			// 2. Scale-in boxes — play once on enter
+			gsap.from('.box', {
+				scrollTrigger: {
+					trigger: '.boxes',
+					start: 'top 80%',
+					once: true
+				},
+				scale: 0,
+				rotation: 45,
+				opacity: 0,
+				duration: 0.6,
+				stagger: 0.1,
+				ease: 'back.out(2)'
+			});
 
-		// 3. Scale-in boxes
-		gsap.from('.box', {
-			scrollTrigger: {
-				trigger: '.boxes',
-				start: 'top 80%',
-				toggleActions: 'play none none reverse'
-			},
-			scale: 0,
-			rotation: 45,
-			opacity: 0,
-			duration: 0.6,
-			stagger: 0.1,
-			ease: 'back.out(2)'
-		});
+			// 3. Parallax background layer
+			gsap.to('.parallax-layer', {
+				scrollTrigger: {
+					trigger: '.parallax-section',
+					start: 'top bottom',
+					end: 'bottom top',
+					scrub: true
+				},
+				y: -200
+			});
 
-		// 5. Parallax background layer
-		gsap.to('.parallax-layer', {
-			scrollTrigger: {
-				trigger: '.parallax-section',
-				start: 'top bottom',
-				end: 'bottom top',
-				scrub: true
-			},
-			y: -100
-		});
+			// 4. Text reveal — play once on enter
+			gsap.from('.reveal-line', {
+				scrollTrigger: {
+					trigger: '.reveal-section',
+					start: 'top 75%',
+					once: true
+				},
+				y: 40,
+				opacity: 0,
+				duration: 0.7,
+				stagger: 0.2
+			});
 
-		// 6. Text reveal (clip animation)
-		gsap.from('.reveal-line', {
-			scrollTrigger: {
-				trigger: '.reveal-section',
-				start: 'top 75%',
-				toggleActions: 'play none none reverse'
-			},
-			y: 40,
-			opacity: 0,
-			duration: 0.7,
-			stagger: 0.2
-		});
-
-		// 7. Background logo fade-in
-		gsap.set('.bg-logo', { opacity: 0 });
-		gsap.to('.bg-logo', {
-			scrollTrigger: {
-				trigger: '#about',
-				start: 'top bottom',
-				end: 'top 30%',
-				scrub: true
-			},
-			opacity: 0.5,
-			ease: 'none'
+			// 5. Background logo fade-in
+			gsap.fromTo(
+				'.bg-logo',
+				{ opacity: 0 },
+				{
+					scrollTrigger: {
+						trigger: '#about',
+						start: 'top bottom',
+						end: 'top 30%',
+						scrub: true
+					},
+					opacity: 0.5,
+					ease: 'none',
+					immediateRender: true
+				}
+			);
 		});
 
 		ScrollTrigger.refresh();
+
+		return () => ctx.revert();
 	});
 </script>
 

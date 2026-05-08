@@ -1,40 +1,43 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { gsap } from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+	import { gsap } from '$lib/utils/gsap';
 
 	onMount(() => {
-		gsap.registerPlugin(ScrollTrigger);
+		const ctx = gsap.context(() => {
+			// Scroll-triggered stagger reveal — single timeline for coherent sequencing
+			const tl = gsap.timeline({
+				scrollTrigger: {
+					trigger: '#about',
+					start: 'top 75%',
+					once: true
+				}
+			});
 
-		// Scroll-triggered stagger reveal
-		gsap.from('.about-content details', {
-			scrollTrigger: {
-				trigger: '#about',
-				start: 'top 75%',
-				toggleActions: 'play none none reverse'
-			},
-			opacity: 0,
-			y: 40,
-			duration: 0.6,
-			stagger: 0.15,
-			ease: 'power2.out'
-		});
+			tl.from('.about-content details', {
+				opacity: 0,
+				y: 40,
+				duration: 0.6,
+				stagger: 0.15,
+				ease: 'power2.out'
+			});
 
-		gsap.from('.about-content blockquote', {
-			scrollTrigger: {
-				trigger: '#about',
-				start: 'top 60%',
-				toggleActions: 'play none none reverse'
-			},
-			opacity: 0,
-			y: 30,
-			duration: 0.8,
-			delay: 0.3,
-			ease: 'power2.out'
+			tl.from(
+				'.about-content blockquote',
+				{
+					opacity: 0,
+					y: 30,
+					duration: 0.8,
+					ease: 'power2.out'
+				},
+				'>'
+			); // starts after the details stagger finishes
 		});
 
 		// Details open/close animation
-		document.querySelectorAll('.about-content details').forEach((details) => {
+		const detailsList = document.querySelectorAll('.about-content details');
+		const handlers: { el: HTMLElement; fn: (e: Event) => void }[] = [];
+
+		detailsList.forEach((details) => {
 			const body = details.querySelector<HTMLElement>('.details-body');
 			const indicator = details.querySelector<HTMLElement>('.indicator');
 			const summary = details.querySelector('summary');
@@ -50,7 +53,7 @@
 				paddingBottom: 0
 			});
 
-			summary.addEventListener('click', (e) => {
+			const handleClick = (e: Event) => {
 				if (isAnimating) return;
 				e.preventDefault();
 				const isOpen = (details as HTMLDetailsElement).open;
@@ -89,8 +92,22 @@
 					});
 					if (indicator) gsap.to(indicator, { rotation: 45, duration: 0.3, ease: 'power2.out' });
 				}
-			});
+			};
+
+			summary.addEventListener('click', handleClick);
+			handlers.push({ el: summary, fn: handleClick });
 		});
+
+		return () => {
+			ctx.revert();
+			handlers.forEach(({ el, fn }) => el.removeEventListener('click', fn));
+			detailsList.forEach((details) => {
+				const body = details.querySelector('.details-body');
+				const indicator = details.querySelector('.indicator');
+				if (body) gsap.killTweensOf(body);
+				if (indicator) gsap.killTweensOf(indicator);
+			});
+		};
 	});
 </script>
 
