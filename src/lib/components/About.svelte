@@ -157,7 +157,6 @@
 		text-align: center;
 		position: relative;
 		overflow: hidden;
-		scroll-margin-top: 70px;
 	}
 
 	.section-title {

@@ -10,13 +10,49 @@
 	function close() {
 		menuOpen = false;
 	}
+
+	function scrollTo(id: string) {
+		close();
+		const el = document.getElementById(id);
+		if (!el) return;
+
+		if (id === 'hero') {
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+			return;
+		}
+
+		if (id === 'artists') {
+			const wrapper = el.querySelector('.marquee-wrapper');
+			if (wrapper) {
+				const rect = wrapper.getBoundingClientRect();
+				const top = rect.top + window.scrollY - (window.innerHeight / 2 - rect.height / 2);
+				window.scrollTo({ top, behavior: 'smooth' });
+				return;
+			}
+		}
+
+		const top = el.getBoundingClientRect().top + window.scrollY - 80;
+		window.scrollTo({ top, behavior: 'smooth' });
+	}
 </script>
 
 <nav class="navbar">
 	<div class="nav-inner">
 		<div class="nav-left">
-			<a href="#about">ABOUT</a>
-			<a href="#artists">ARTISTS</a>
+			<a
+				href="#about"
+				onclick={(e) => {
+					e.preventDefault();
+					scrollTo('about');
+				}}>ABOUT</a
+			>
+			<a
+				href="#artists"
+				onclick={(e) => {
+					e.preventDefault();
+					scrollTo('artists');
+				}}>ARTISTS</a
+			>
 		</div>
 
 		<button class="hamburger" onclick={toggle} aria-label="Toggle menu">
@@ -25,13 +61,32 @@
 			<span class:open={menuOpen}></span>
 		</button>
 
-		<a href="#hero" class="nav-center">
+		<a
+			href="#hero"
+			class="nav-center"
+			onclick={(e) => {
+				e.preventDefault();
+				scrollTo('hero');
+			}}
+		>
 			<img src={logoSvg} alt="iluminar" />
 		</a>
 
 		<div class="nav-right">
-			<a href="#info">INFO</a>
-			<a href="#tickets">TICKETS</a>
+			<a
+				href="#info"
+				onclick={(e) => {
+					e.preventDefault();
+					scrollTo('info');
+				}}>INFO</a
+			>
+			<a
+				href="#tickets"
+				onclick={(e) => {
+					e.preventDefault();
+					scrollTo('tickets');
+				}}>TICKETS</a
+			>
 		</div>
 	</div>
 </nav>
@@ -40,10 +95,34 @@
 
 <aside class="side-menu" class:open={menuOpen}>
 	<nav>
-		<a href="#about" onclick={close}>ABOUT</a>
-		<a href="#artists" onclick={close}>ARTISTS</a>
-		<a href="#info" onclick={close}>INFO</a>
-		<a href="#tickets" onclick={close}>TICKETS</a>
+		<a
+			href="#about"
+			onclick={(e) => {
+				e.preventDefault();
+				scrollTo('about');
+			}}>ABOUT</a
+		>
+		<a
+			href="#artists"
+			onclick={(e) => {
+				e.preventDefault();
+				scrollTo('artists');
+			}}>ARTISTS</a
+		>
+		<a
+			href="#info"
+			onclick={(e) => {
+				e.preventDefault();
+				scrollTo('info');
+			}}>INFO</a
+		>
+		<a
+			href="#tickets"
+			onclick={(e) => {
+				e.preventDefault();
+				scrollTo('tickets');
+			}}>TICKETS</a
+		>
 	</nav>
 </aside>
 

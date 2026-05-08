@@ -53,9 +53,6 @@
 </script>
 
 <section id="artists" class="section artists-section">
-	<h2 class="section-title">ARTISTS</h2>
-	<p class="artists-desc">Hover an artist to pause</p>
-
 	<div class="marquee-wrapper">
 		<div class="marquee-track" {@attach trackAnimation}>
 			{#each images as src, i (src + '-a')}
@@ -70,35 +67,31 @@
 			{/each}
 		</div>
 	</div>
+	<h2 class="section-title">ARTISTS</h2>
 </section>
 
 <style>
 	.artists-section {
 		min-height: 100vh;
 		display: flex;
-		flex-direction: column;
 		align-items: center;
-		padding: 6rem 0 4rem;
-		text-align: center;
+		padding: 0;
 		position: relative;
 		overflow: hidden;
-		scroll-margin-top: 70px;
 	}
 
 	.section-title {
-		margin-bottom: 0.5rem;
-	}
-
-	.artists-desc {
-		color: var(--color-text-dim);
-		font-size: var(--text-sm);
-		margin-bottom: 2rem;
+		position: absolute;
+		bottom: 3rem;
+		left: 2rem;
+		z-index: 1;
 	}
 
 	.marquee-wrapper {
 		width: 100%;
 		overflow: hidden;
 		cursor: pointer;
+		padding: 2rem 0;
 	}
 
 	.marquee-track {
@@ -106,11 +99,12 @@
 		gap: 1.5rem;
 		width: max-content;
 		padding: 0 0.75rem;
+		align-items: center;
 	}
 
 	.marquee-item {
 		flex-shrink: 0;
-		width: 200px;
+		width: min(40vh, 400px);
 		aspect-ratio: 1;
 		border-radius: var(--radius-md);
 		overflow: hidden;
@@ -131,7 +125,12 @@
 
 	@media (max-width: 640px) {
 		.marquee-item {
-			width: 140px;
+			width: 30vh;
+		}
+
+		.section-title {
+			bottom: 2rem;
+			left: 1rem;
 		}
 	}
 </style>
