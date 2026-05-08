@@ -1,6 +1,10 @@
+<script lang="ts">
+	import { base } from '$app/paths';
+</script>
+
 <section id="people" class="section people-section">
 	<div class="people-layout">
-		<img class="people-image" src="/people-background.webp" alt="" />
+		<img class="people-image" src="{base}/people-background.webp" alt="" />
 		<div class="people-text">
 			<h2 class="people-heading">The People<br />and the Place</h2>
 		</div>

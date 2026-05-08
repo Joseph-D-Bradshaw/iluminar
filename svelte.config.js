@@ -1,5 +1,7 @@
 import adapter from '@sveltejs/adapter-static';
 
+const base = process.env.BASE_PATH || '';
+
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	compilerOptions: {
@@ -7,7 +9,19 @@ const config = {
 		runes: ({ filename }) => (filename.split(/[/\\]/).includes('node_modules') ? undefined : true)
 	},
 	kit: {
-		adapter: adapter()
+		adapter: adapter({
+			pages: 'build',
+			assets: 'build',
+			fallback: '404.html',
+			precompress: false,
+			strict: true
+		}),
+		paths: {
+			base
+		},
+		prerender: {
+			entries: ['*']
+		}
 	}
 };
 

@@ -1,7 +1,11 @@
+<script lang="ts">
+	import { base } from '$app/paths';
+</script>
+
 <section id="hero" class="hero">
 	<div class="hero-video">
 		<video autoplay muted loop playsinline>
-			<source src="/hero-bg.mp4" type="video/mp4" />
+			<source src="{base}/hero-bg.mp4" type="video/mp4" />
 		</video>
 	</div>
 	<div class="hero-overlay"></div>

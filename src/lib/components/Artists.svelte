@@ -1,16 +1,19 @@
 <script lang="ts">
 	import { gsap, ScrollTrigger } from '$lib/utils/gsap';
 	import type { Attachment } from 'svelte/attachments';
+	import { base } from '$app/paths';
+
+	const img = (path: string) => `${base}${path}`;
 
 	const artists = [
-		{ src: '/artist-1.webp', name: 'Artist One' },
-		{ src: '/artist-2.webp', name: 'Bob Smith' },
-		{ src: '/artist-3.webp', name: 'Joseph B' },
-		{ src: '/artist-4.webp', name: 'Little Przemememe' },
-		{ src: '/artist-5.webp', name: 'Annabobana' },
-		{ src: '/artist-6.webp', name: 'Poco Schmoko' },
-		{ src: '/artist-7.webp', name: 'Big Pizza Slice' },
-		{ src: '/artist-8.webp', name: 'Small Tootin' }
+		{ src: img('/artist-1.webp'), name: 'Artist One' },
+		{ src: img('/artist-2.webp'), name: 'Bob Smith' },
+		{ src: img('/artist-3.webp'), name: 'Joseph B' },
+		{ src: img('/artist-4.webp'), name: 'Little Przemememe' },
+		{ src: img('/artist-5.webp'), name: 'Annabobana' },
+		{ src: img('/artist-6.webp'), name: 'Poco Schmoko' },
+		{ src: img('/artist-7.webp'), name: 'Big Pizza Slice' },
+		{ src: img('/artist-8.webp'), name: 'Small Tootin' }
 	];
 
 	const orbs = [
